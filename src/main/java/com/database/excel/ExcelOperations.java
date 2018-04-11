@@ -12,8 +12,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.database.model.ProductionCapability;
-
 /**
  * This class reads the excel file and updates the database.
  * The program is divided into three parts. 
@@ -24,23 +22,23 @@ import com.database.model.ProductionCapability;
 
 public class ExcelOperations {
 	
-	private static Map<String,ProductionCapability> rowRecords = null;
-	private static ProductionCapability records = null;
+	private static Map<String,ClassObject> rowRecords = null;
+	// create a classObject with respect to mapping for pojo
 	
 	//send the filename, read the execel data and return the read data in the hashmap
-	public static Map<String, ProductionCapability> readXLSXFile(String fileName) throws IOException
+	public static Map<String, ClassObject> readXLSXFile(String fileName) throws IOException
 	{
 		InputStream ExcelFileToRead = new FileInputStream(fileName);
 		XSSFWorkbook  wb = new XSSFWorkbook(ExcelFileToRead);
 		
-		rowRecords = new HashMap<String,ProductionCapability>();
+		rowRecords = new HashMap<String,ClassObject>();
 		
 		XSSFSheet sheet = wb.getSheetAt(0);
 		XSSFRow row; 
 		XSSFCell cell;
 		
 		// first half, read the header values and create a pojo which will map with the base table in the database  
-		/*StringBuilder buildHeader = new StringBuilder();
+		StringBuilder buildHeader = new StringBuilder();
 		headerRow = sheet.getRow(0);
 
 		Iterator headerCells = headerRow.cellIterator(); 
@@ -48,69 +46,30 @@ public class ExcelOperations {
 			headerCell=(XSSFCell) headerCells.next();
 			buildHeader.append(headerCell.getStringCellValue()+",");
 		}
-		System.out.println(buildHeader.toString());
-		Object classObject = buildClassObject(buildHeader);
-		boolean updateRecords = updateTable(classObject);
-	*/
+		
+		ClassObject classObjects = buildClassObject(buildHeader);
 		
 		int firstRow = sheet.getFirstRowNum();
 		int lastRow = sheet.getLastRowNum();
 		String key= new String();
 		
 		for (int i = firstRow + 1; i <= lastRow; i++) {
-			records = new ProductionCapability();
+			//create new object of the pojo class everytime
 			row = wb.getSheetAt(0).getRow(i);
 			
 			cell = row.getCell(0);			
-			records.setId((int) cell.getNumericCellValue());
+			//Use setter to set the first cell in the first row
 			
 			cell = row.getCell(1);
-			records.setEquipmentID((int) cell.getNumericCellValue());
+			//Use setter to set the second cell in the first row
 			
 			cell = row.getCell(2);
-			records.setMaterialID((String) cell.getStringCellValue());
+			//Use setter to set the third cell in the first row
 			
-			cell = row.getCell(3);
-			records.setMaterialRev((String) cell.getStringCellValue());
-			
-			cell = row.getCell(4);
-			records.setIdealRate((int) cell.getNumericCellValue());
-			
-			cell = row.getCell(5);
-			records.setIdealRateUnits((String) cell.getStringCellValue());
-			
-			cell = row.getCell(6);
-			records.setPreferredAssignOrder((int) cell.getNumericCellValue());
-			
-			cell = row.getCell(7);
-			records.setStatus((int) cell.getNumericCellValue());
-			
-			//check the comments column
-			cell = row.getCell(8);
-			records.setComment((String) " ");
-			
-			/*  check this again for reading the comments value
-			if(cell.getStringCellValue() == null){
-				records.setComment((String) "");
-			}else{
-				records.setComment((String) cell.getStringCellValue());
-			}*/
-			//records.setComment((String)((cell.getStringCellValue() == null)? " " : cell.getStringCellValue()));
-			
-			cell = row.getCell(9);
-			records.setEnabled((byte) cell.getNumericCellValue());
-			
-			cell = row.getCell(10);
-			records.setLastEditBy((String) cell.getStringCellValue());
-			
-			cell = row.getCell(11);
-			records.setLastEditAt((Date) cell.getDateCellValue());
-		
-			// merge equipment id, material id and material rev for further analysis 
-			key = records.getEquipmentID()+"_"+records.getMaterialID()+"_"+records.getMaterialRev();
+			//perform the same steps with other cells and set them to respective pojo values.
 			rowRecords.put(key, records);
 		} 
-		System.out.println(rowRecords.toString());
+		
 		return rowRecords;
 	}
 	
