@@ -37,14 +37,13 @@
 	      <groupId>mysql</groupId>
 	      <artifactId>mysql-connector-java</artifactId>
 	    </dependency>
-<<<<<<< HEAD
+
 	    <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-=======
->>>>>>> 60c8df7a1b298156647ae3a22591211d6eab6a32
+
 	 	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -73,7 +72,7 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-<<<<<<< HEAD
+
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
@@ -95,13 +94,10 @@
 					</configuration>
 				</plugin>				
 				<!-- <plugin>
-=======
-				<!-- <plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
 				</plugin> -->
 				<plugin>
->>>>>>> 60c8df7a1b298156647ae3a22591211d6eab6a32
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>3.1.0</version>
@@ -121,11 +117,7 @@
 						</execution>
 					</executions>
 				</plugin>
-<<<<<<< HEAD
- -->			</plugins>
-=======
 			</plugins>
->>>>>>> 60c8df7a1b298156647ae3a22591211d6eab6a32
 		</pluginManagement>
 	</build>
 </project>
