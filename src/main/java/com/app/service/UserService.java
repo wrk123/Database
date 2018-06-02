@@ -1,12 +1,13 @@
-package com.database.service;
+package com.app.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
-import com.database.dao.UserDAO;
-import com.database.model.User;
+
+import com.app.dao.UserDAO;
+import com.app.model.User;
 
 @Service
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
 		user = userDAO.findByEmail(userDetails.getEmail());
 		if(user == null){
 			try{
-				user = new User(userDetails.getName(),userDetails.getEmail(),userDetails.getCity());
+				user = new User(userDetails.getFirstName(), userDetails.getLastName(),userDetails.getEmail(),userDetails.getCity());
 				userDAO.save(user);
 				LOG.debug("-------- Successful [SAVING USER] -------");
 			}catch(Exception e){
