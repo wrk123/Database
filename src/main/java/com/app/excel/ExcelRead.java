@@ -20,7 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelRead {
 
 	private static List<StringBuilder> rowList;
-	private static StringBuilder buildHeader, buildType, buildRow;
+	private static StringBuilder header, type, rows;
 
 	ExcelRead() {
 		rowList = new ArrayList<StringBuilder>();
@@ -35,25 +35,25 @@ public class ExcelRead {
 		XSSFRow row;
 		XSSFCell cell;
 
-		buildHeader = new StringBuilder();
+		header = new StringBuilder();
 
 		/*
 		 * headerRow = sheet.getRow(0); Iterator headerCells =
 		 * headerRow.cellIterator(); while(headerCells.hasNext()){
 		 * headerCell=(XSSFCell) headerCells.next();
-		 * buildHeader.append(headerCell.getStringCellValue()+","); }
+		 * header.append(headerCell.getStringCellValue()+","); }
 		 */
 
 		for (int rowIndex = sheet.getFirstRowNum(); rowIndex <= sheet.getLastRowNum(); rowIndex++) {
 			row = sheet.getRow(rowIndex);
 			if (row != null) {
-				buildRow = new StringBuilder();
-				buildType = new StringBuilder();
+				rows = new StringBuilder();
+				type = new StringBuilder();
 
 				for (int colIndex = 0; colIndex < row.getLastCellNum(); colIndex++) {
 					cell = row.getCell(colIndex);
 					if (rowIndex == 0) {
-						buildHeader.append(cell.getRawValue() + ",");
+						header.append(cell.getRawValue() + ",");
 					} else {
 						if (rowIndex == 1) {
 							createType(cell);
@@ -63,8 +63,8 @@ public class ExcelRead {
 						}
 					}
 				}
-				System.out.println(buildRow.toString());
-				rowList.add(buildRow);
+				System.out.println(rows.toString());
+				rowList.add(rows);
 			}
 		}
 	}
@@ -78,18 +78,18 @@ public class ExcelRead {
 		HSSFRow row;
 		HSSFCell cell;
 
-		buildHeader = new StringBuilder();
+		header = new StringBuilder();
 
 		for (int rowIndex = sheet.getFirstRowNum(); rowIndex <= sheet.getLastRowNum(); rowIndex++) {
 			row = sheet.getRow(rowIndex);
 			if (row != null) {
-				buildRow = new StringBuilder();
-				buildType = new StringBuilder();
+				rows = new StringBuilder();
+				type = new StringBuilder();
 
 				for (int colIndex = 0; colIndex < row.getLastCellNum(); colIndex++) {
 					cell = row.getCell(colIndex);
 					if (rowIndex == 0) {
-						buildHeader.append(cell.getStringCellValue() + ",");
+						header.append(cell.getStringCellValue() + ",");
 					} else {
 						if (rowIndex == 1) {
 							createType(cell);
@@ -99,8 +99,8 @@ public class ExcelRead {
 						}
 					}
 				}
-				System.out.println(buildRow.toString());
-				rowList.add(buildRow);
+				System.out.println(rows.toString());
+				rowList.add(rows);
 			}
 		}
 	}
@@ -108,22 +108,22 @@ public class ExcelRead {
 	private static void createList(Cell cellValue) {
 		switch (cellValue.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
-			buildRow.append(cellValue.getStringCellValue() + ",");
+			rows.append(cellValue.getStringCellValue() + ",");
 			break;
 		case Cell.CELL_TYPE_NUMERIC:
-			buildRow.append(cellValue.getNumericCellValue() + ",");
+			rows.append(cellValue.getNumericCellValue() + ",");
 			break;
 		case Cell.CELL_TYPE_BOOLEAN:
-			buildRow.append(cellValue.getBooleanCellValue() + ",");
+			rows.append(cellValue.getBooleanCellValue() + ",");
 			break;
 		case Cell.CELL_TYPE_BLANK:
-			buildRow.append(cellValue.getErrorCellValue() + ",");
+			rows.append(cellValue.getErrorCellValue() + ",");
 			break;
 		case Cell.CELL_TYPE_ERROR:
-			buildRow.append(cellValue.getErrorCellValue() + ",");
+			rows.append(cellValue.getErrorCellValue() + ",");
 			break;
 		case Cell.CELL_TYPE_FORMULA:
-			buildRow.append(cellValue.getStringCellValue() + ",");
+			rows.append(cellValue.getStringCellValue() + ",");
 			break;
 		default:
 			break;
@@ -133,22 +133,22 @@ public class ExcelRead {
 	private static void createType(Cell cellValue) {
 		switch (cellValue.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
-			buildType.append(cellValue.getCellTypeEnum() + ",");
+			type.append(cellValue.getCellTypeEnum() + ",");
 			break;
 		case Cell.CELL_TYPE_NUMERIC:
-			buildType.append(cellValue.getCellTypeEnum() + ",");
+			type.append(cellValue.getCellTypeEnum() + ",");
 			break;
 		case Cell.CELL_TYPE_BOOLEAN:
-			buildType.append(cellValue.getCellTypeEnum() + ",");
+			type.append(cellValue.getCellTypeEnum() + ",");
 			break;
 		case Cell.CELL_TYPE_BLANK:
-			buildType.append(cellValue.getCellTypeEnum() + ",");
+			type.append(cellValue.getCellTypeEnum() + ",");
 			break;
 		case Cell.CELL_TYPE_ERROR:
-			buildType.append(cellValue.getCellTypeEnum() + ",");
+			type.append(cellValue.getCellTypeEnum() + ",");
 			break;
 		case Cell.CELL_TYPE_FORMULA:
-			buildType.append(cellValue.getCellTypeEnum() + ",");
+			type.append(cellValue.getCellTypeEnum() + ",");
 			break;
 		default:
 			break;
@@ -159,32 +159,32 @@ public class ExcelRead {
 		return rowList;
 	}
 
-	public static StringBuilder getBuildHeader() {
-		return buildHeader;
+	public static StringBuilder getHeader() {
+		return header;
 	}
 
-	public static StringBuilder getBuildType() {
-		return buildType;
+	public static StringBuilder getType() {
+		return type;
 	}
 
-	public static StringBuilder getBuildRow() {
-		return buildRow;
+	public static StringBuilder getRows() {
+		return rows;
 	}
 
 	public static void setRowList(List<StringBuilder> rowList) {
 		ExcelRead.rowList = rowList;
 	}
 
-	public static void setBuildHeader(StringBuilder buildHeader) {
-		ExcelRead.buildHeader = buildHeader;
+	public static void setHeader(StringBuilder header) {
+		ExcelRead.header = header;
 	}
 
-	public static void setBuildType(StringBuilder buildType) {
-		ExcelRead.buildType = buildType;
+	public static void setType(StringBuilder type) {
+		ExcelRead.type = type;
 	}
 
-	public static void setBuildRow(StringBuilder buildRow) {
-		ExcelRead.buildRow = buildRow;
+	public static void setRows(StringBuilder rows) {
+		ExcelRead.rows = rows;
 	}
 
 }
